@@ -1,14 +1,19 @@
 # Senter Premium
 
-Aplikasi senter lelucon untuk konten: **menyalakan gratis, mematikan harus berlangganan.**
+**Aplikasi lelucon.** Menyalakan senter gratis, mematikannya harus "berlangganan".
 
-Pengguna tidak diberi tahu apa pun di awal. Senter menyala dengan normal, dan jebakannya baru terungkap saat mereka mencoba mematikannya.
+Proyek ini dibuat **semata-mata untuk belajar UI dan animasi di Flutter**, misalnya render 3D tanpa plugin, animasi, state management, dan arsitektur per fitur, serta sebagai bahan konten hiburan. Ini bukan produk, dan tidak dimaksudkan untuk dipublikasikan atau dipakai menarik uang dari siapa pun.
 
 | Mati | Menyala |
 |---|---|
 | ![Senter mati](docs/senter-mati.png) | ![Senter menyala](docs/senter-nyala.png) |
 
-> Secara default aplikasi memakai **billing palsu**, jadi tidak ada uang sungguhan yang ditarik. Aplikasi ini dibuat untuk direkam, bukan untuk dijual.
+## Disclaimer
+
+- Ini **aplikasi lelucon**. Seluruh "langganan", harga, promo, hitung mundur, dan jumlah pengguna di dalamnya **fiktif**. Secara default tidak ada transaksi sungguhan.
+- Pembuat **tidak bertanggung jawab** atas pengembangan lanjutan, modifikasi, atau penggunaan proyek ini oleh pihak lain. Itu termasuk memakainya untuk menipu, menjebak pembayaran, atau tindakan melanggar hukum lainnya.
+- Proyek ini **tidak mengandung dan tidak mendukung indikasi kejahatan apa pun**. Pola "jebakan" di dalamnya hanyalah satire tentang aplikasi berlangganan, dan dibuat untuk tujuan belajar serta hiburan.
+- Dengan memakai atau memodifikasi kode ini, Anda menanggung sendiri seluruh risiko dan tanggung jawabnya.
 
 ## Fitur
 
@@ -37,13 +42,13 @@ Opsi ini diatur dengan `--dart-define` dan dibaca di [`lib/core/config/app_confi
 
 | Opsi | Default | Fungsi |
 |---|---|---|
-| `FAKE_BILLING` | `true` | `false` = pakai Google Play / App Store sungguhan |
+| `FAKE_BILLING` | `true` | Billing palsu. Biarkan `true`, karena proyek ini tidak untuk transaksi sungguhan |
 | `VIRTUAL_TORCH_FALLBACK` | `true` | `false` = tampilkan layar "tidak ada senter" di perangkat tanpa flash |
 
 Contoh:
 
 ```bash
-flutter run --dart-define=FAKE_BILLING=false
+flutter run --dart-define=VIRTUAL_TORCH_FALLBACK=false
 ```
 
 ## Struktur proyek
@@ -123,10 +128,6 @@ Anda juga bisa memakai model dari Blender:
 
 Renderernya berjalan di CPU tanpa plugin. Kalau animasinya patah-patah di perangkat lambat, kurangi jumlah segitiga, misalnya dengan menurunkan `segments` di skrip generator.
 
-### Mengganti sistem billing
-
-Semua akses billing lewat interface `SubscriptionRepository`. Untuk pindah ke RevenueCat atau layanan lain, buat implementasi baru lalu ganti di `subscriptionRepositoryProvider` ([subscription_providers.dart](lib/features/subscription/application/subscription_providers.dart)).
-
 ## Test
 
 ```bash
@@ -142,16 +143,7 @@ Yang dicakup test:
 - alur UI lengkap: nyala → paywall → perayaan → mati → reset
 - eskalasi kalimat reaksi
 
-## Kalau ingin rilis ke store
+## Catatan
 
-Aplikasi ini ditujukan untuk konten. Kalau tetap ingin memakai langganan sungguhan:
-
-1. Buat produk langganan `senter_premium_weekly`, `senter_premium_monthly`, dan `senter_premium_yearly` di Play Console dan App Store Connect. ID-nya bisa diubah di `AppConfig`.
-2. Ganti `applicationId` / bundle ID yang masih `com.example.senter_premium`.
-3. Ganti `ClientSidePurchaseVerifier` dengan verifikasi di server. Saat ini data pembelian dari HP dipercaya begitu saja.
-4. Build dengan `--dart-define=FAKE_BILLING=false`.
-
-Keterbatasan:
-
-- Pengguna tetap bisa mematikan senter lewat Quick Settings / Control Center, atau dengan menutup paksa aplikasi. Tampilan di aplikasi tidak ikut berubah dalam kasus itu.
-- Apple dan Google bisa menolak aplikasi ini karena dianggap menyesatkan. Jelaskan dengan jelas di deskripsi store bahwa ini aplikasi lelucon.
+- Kode billing sungguhan (`StoreSubscriptionRepository`) disertakan hanya sebagai contoh arsitektur, dan tidak aktif secara default.
+- Proyek ini tidak ditujukan untuk dirilis ke Play Store atau App Store.
